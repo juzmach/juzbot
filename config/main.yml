@@ -1,0 +1,6 @@
+server: irc.cs.hut.fi
+port: 6667
+nickname: juzbot
+username: juzbot
+realname: Juzbot
+channel: "#juzbot"
