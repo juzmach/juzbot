@@ -9,42 +9,42 @@ connection.puts "NICK #{config['nickname']}"
 connection.puts "JOIN #{config['channel']}"
 connection.puts "PRIVMSG #{config['channel']} :Hello world!"
 
-def sendPong(connection, server)
+def send_pong(connection, server)
   connection.puts "PONG #{server}"
 end
 
-def sendMessage(connection, target, message)
+def send_message(connection, target, message)
   connection.puts "PRIVMSG #{target} :#{message}"
 end
 
-def parseMessage(message)
+def parse_message(message)
 
   if message.include? "PING"
     return "PING"
-  else
+  elsif message.include? "PRIVMSG"
     words = message.split(" ")
-    sender = words[0]
-    ircMessageType = words[1]
-    target = words[2]
+    parsed_message = {sender: words[0],
+                      message_type: words[1],
+                      target: words[2]}
 
     if /^:!(\w+)/.match words[3]
-      return words[3].tr('!','').upcase
+      parsed_message[:command] = words[3].tr('!','').upcase
     end
-
+      parsed_message
   end
-
 end
 
 while true do
   msg = connection.gets
+  parsed_message = parse_message(msg)
 
-  msgType = parseMessage(msg)
-
-  if msgType == "PING"
-    sendPong(connection, config['server'])
+  if parsed_message == "PING"
+    send_pong(connection, config['server'])
     puts "PONG message sent"
   else
-    puts msgType
+    unless parsed_message.nil?
+      puts parsed_message.to_s
+    end
   end
 
   puts msg
