@@ -1,0 +1,6 @@
+source 'https://rubygems.org'
+
+# Gems for the web application
+
+# Sinatra
+gem 'sinatra'
