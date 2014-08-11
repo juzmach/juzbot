@@ -9,7 +9,8 @@ end
 
 get '/start_bot' do
   @bot = Bot.new
-  @bot.run
+
+  Thread.new{@bot.run}
 end
 
 get '/stop_bot' do

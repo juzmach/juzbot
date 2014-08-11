@@ -77,9 +77,9 @@ class Bot
   def run
     @connection = connect
 
-    while @running == true do
-      listen_and_respond(@connection.gets)
-    end
+      while @running == true do
+        listen_and_respond(@connection.gets)
+      end
 
     @connection.close
 
